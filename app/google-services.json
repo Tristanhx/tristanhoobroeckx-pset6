@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "294230783652",
+    "firebase_url": "https://tristanhoobroeckx-pset6.firebaseio.com",
+    "project_id": "tristanhoobroeckx-pset6",
+    "storage_bucket": "tristanhoobroeckx-pset6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:294230783652:android:c8b68e50d518d833",
+        "android_client_info": {
+          "package_name": "com.example.tristan.tristanhoobroeckx_pset6"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "294230783652-eg6kqfmerbkpfua64f2cmepiapsb4aj0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tristan.tristanhoobroeckx_pset6",
+            "certificate_hash": "57d7eaa0b8ae4e8ce4c80408ab4c190c470b4c93"
+          }
+        },
+        {
+          "client_id": "294230783652-16e2gv2c01is9mucrlfa1kkqejmlutuf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBz9Ql3d1exuml0MTPMoSrJw0l4VCk852I"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "294230783652-16e2gv2c01is9mucrlfa1kkqejmlutuf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
