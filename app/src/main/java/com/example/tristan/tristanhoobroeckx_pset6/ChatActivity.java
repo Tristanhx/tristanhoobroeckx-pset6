@@ -75,6 +75,15 @@ public class ChatActivity extends AppCompatActivity {
     public void DisplayChats(){
         chatlist = (ListView) findViewById(R.id.chatlist);
 
+        FirebaseUser fabuser = FirebaseAuth.getInstance().getCurrentUser();
+
+        if(fabuser.getDisplayName().equals("Blue")){
+            fab.setBackgroundTintList(getResources().getColorStateList(R.color.bluefab));
+        }
+        else if(fabuser.getDisplayName().equals("Red")){
+            fab.setBackgroundTintList(getResources().getColorStateList(R.color.redfab));
+        }
+
         FirebaseListAdapter<DebateMessage> chatadapter = new FirebaseListAdapter<DebateMessage>(this, DebateMessage.class, R.layout.message, database.getReference()) {
             @Override
             protected void populateView(View view, DebateMessage message, int position) {
@@ -86,6 +95,13 @@ public class ChatActivity extends AppCompatActivity {
                 // Set textViews from message.xml
                 messageText.setText(message.getMessageText());
                 messageUser.setText(message.getMessageUser());
+
+                if(message.getMessageUser().equals("Blue")){
+                    messageUser.setTextColor(getResources().getColor(R.color.blue1));
+                }
+                else if(message.getMessageUser().equals("Red")){
+                    messageUser.setTextColor(getResources().getColor(R.color.red2));
+                }
                 messageTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)", message.getMessageTime()));
 
             }

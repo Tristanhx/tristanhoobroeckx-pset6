@@ -107,6 +107,9 @@ public class MainActivity extends AppCompatActivity {
                             } else {
                                 Toast.makeText(MainActivity.this, "Created User: " + email,
                                         Toast.LENGTH_SHORT).show();
+
+                                mAuth.signOut();
+
                             }
 
                             // ...

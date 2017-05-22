@@ -64,16 +64,16 @@ public class TeamActivity extends AppCompatActivity {
     }
 
     public void BeBlue(View view){
-        FirebaseUser teamuser = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser teamuserblue = FirebaseAuth.getInstance().getCurrentUser();
 
         Log.d("team", "Blue");
 
-        if (teamuser != null) {
+        if (teamuserblue != null) {
 
             // Set Displayname
             UserProfileChangeRequest updateToRedOrBlue = new UserProfileChangeRequest.Builder()
                     .setDisplayName("Blue").build();
-            teamuser.updateProfile(updateToRedOrBlue);
+            teamuserblue.updateProfile(updateToRedOrBlue);
             Toast.makeText(this, "You are Blue", Toast.LENGTH_SHORT).show();
 
         }
@@ -84,18 +84,16 @@ public class TeamActivity extends AppCompatActivity {
     }
 
     public void BeRed(View view){
-        FirebaseUser teamuser = FirebaseAuth.getInstance().getCurrentUser();
-
-
+        FirebaseUser teamuserred = FirebaseAuth.getInstance().getCurrentUser();
 
         Log.d("team", "Red");
 
-        if (teamuser != null) {
+        if (teamuserred != null) {
 
             // Set Displayname
             UserProfileChangeRequest updateToRedOrBlue = new UserProfileChangeRequest.Builder()
                     .setDisplayName("Red").build();
-            teamuser.updateProfile(updateToRedOrBlue);
+            teamuserred.updateProfile(updateToRedOrBlue);
             Toast.makeText(this, "You are Red", Toast.LENGTH_SHORT).show();
 
         }
