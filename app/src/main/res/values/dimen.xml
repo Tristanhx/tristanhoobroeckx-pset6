@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="chat_vertical_margin">50dp</dimen>
+    <dimen name="chat_horizontal_margin">50dp</dimen>
+
+
+</resources>
