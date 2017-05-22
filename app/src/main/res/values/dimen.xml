@@ -2,6 +2,12 @@
 <resources>
     <dimen name="chat_vertical_margin">50dp</dimen>
     <dimen name="chat_horizontal_margin">50dp</dimen>
+    <dimen name="signtextsize">40sp</dimen>
+    <dimen name="login_margin1">50dp</dimen>
+    <dimen name="login_margin2">30dp</dimen>
+    <dimen name="teamtextsize">40sp</dimen>
+    <dimen name="message_text_margin">5dp</dimen>
+    <dimen name="message_text_size">18sp</dimen>
 
 
 </resources>

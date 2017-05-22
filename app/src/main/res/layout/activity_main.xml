@@ -1,18 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="horizontal"
     tools:context="com.example.tristan.tristanhoobroeckx_pset6.MainActivity">
 
-    <TextView
+   <!--Sign Up-->
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="1">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/signuptext"
+            android:text="@string/signupstring"
+            android:textSize="@dimen/signtextsize"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/login_margin1"
+            />
 
-</android.support.constraint.ConstraintLayout>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/signemailinput"
+            android:hint="@string/emailstring"
+            android:digits="@string/digits"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/login_margin2"
+            />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/signpasswordinput"
+            android:hint="@string/passwordstring"
+            android:digits="@string/digits"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/login_margin2"
+
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/signupstring"
+            android:layout_gravity="center"
+            android:onClick="SignUp"/>
+    </LinearLayout>
+
+    <!--Divider-->
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="@android:color/darker_gray"/>
+
+    <!--Log In-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="1">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/logintext"
+            android:text="@string/loginstring"
+            android:textSize="@dimen/signtextsize"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/login_margin1"
+            />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/logemailinput"
+            android:hint="@string/emailstring"
+            android:digits="@string/digits"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/login_margin2"
+            />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/logpasswordinput"
+            android:hint="@string/passwordstring"
+            android:digits="@string/digits"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/login_margin2"
+
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/loginstring"
+            android:layout_gravity="center"
+            android:onClick="LogIn"/>
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,3 +1,14 @@
 <resources>
-    <string name="app_name">tristanhoobroeckx-pset6</string>
+    <string name="app_name">Debate</string>
+    <string name="emailstring">Email@Email.com</string>
+    <string name="passwordstring">Password</string>
+    <string name="signupstring">Sign Up</string>
+    <string name="loginstring">Log In</string>
+    <string name="blueteam">Blue Team</string>
+    <string name="redteam">Red Team</string>
+    <string name="logout">Log Out</string>
+    <string name="digits">ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz-_@1234567890.</string>
+    <string name="displaynamestring">Displayname!</string>
+
+
 </resources>
