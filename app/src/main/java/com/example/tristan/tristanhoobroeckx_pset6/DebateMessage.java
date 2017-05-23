@@ -9,11 +9,13 @@ import java.util.Date;
 public class DebateMessage {
     private String messageText;
     private String messageUser;
+    private String messageTeam;
     private long messageTime;
 
-    public DebateMessage(String messageText, String messageUser){
+    public DebateMessage(String messageText, String messageUser, String messageTeam){
         this.messageText = messageText;
         this.messageUser = messageUser;
+        this.messageTeam = messageTeam;
 
         // Current time
         messageTime = new Date().getTime();
@@ -36,6 +38,10 @@ public class DebateMessage {
         this.messageTime = newmessagetime;
     }
 
+    public void setMessageTeam(String newTeam){
+        this.messageTeam = newTeam;
+    }
+
     // Getters
     public String getMessageText(){
         return this.messageText;
@@ -47,5 +53,9 @@ public class DebateMessage {
 
     public long getMessageTime(){
         return this.messageTime;
+    }
+
+    public String getMessageTeam(){
+        return this.messageTeam;
     }
 }

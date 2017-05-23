@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -20,11 +21,16 @@ public class TeamActivity extends AppCompatActivity {
     Intent returntoMain;
     Intent toChat;
     FirebaseUser user;
+    String displayname;
+    String team;
+    EditText nameView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team);
+
+        nameView = (EditText) findViewById(R.id.namefield);
 
         returntoMain = new Intent(TeamActivity.this, MainActivity.class);
         toChat = new Intent(TeamActivity.this, ChatActivity.class);
@@ -64,43 +70,64 @@ public class TeamActivity extends AppCompatActivity {
     }
 
     public void BeBlue(View view){
-        FirebaseUser teamuserblue = FirebaseAuth.getInstance().getCurrentUser();
-
-        Log.d("team", "Blue");
-
-        if (teamuserblue != null) {
-
-            // Set Displayname
-            UserProfileChangeRequest updateToRedOrBlue = new UserProfileChangeRequest.Builder()
-                    .setDisplayName("Blue").build();
-            teamuserblue.updateProfile(updateToRedOrBlue);
-            Toast.makeText(this, "You are Blue", Toast.LENGTH_SHORT).show();
-
+        displayname = nameView.getText().toString();
+        if (displayname.equals("")){
+            Toast.makeText(this, "What is your displayname?", Toast.LENGTH_SHORT).show();
         }
         else{
-            Toast.makeText(this, "BlueUser = null", Toast.LENGTH_SHORT).show();
+            FirebaseUser teamuserblue = FirebaseAuth.getInstance().getCurrentUser();
+
+            Log.d("team", getResources().getString(R.string.teamBlue));
+
+            if (teamuserblue != null) {
+
+                // Set Displayname
+                UserProfileChangeRequest updateToRedOrBlue = new UserProfileChangeRequest.Builder()
+                        .setDisplayName(displayname).build();
+                teamuserblue.updateProfile(updateToRedOrBlue);
+                Toast.makeText(this, "You are Blue " + displayname, Toast.LENGTH_SHORT).show();
+
+                team = "Blue";
+                toChat.putExtra("team", team);
+
+                startActivity(toChat);
+
+            }
+            else{
+                Toast.makeText(this, "BlueUser = null", Toast.LENGTH_SHORT).show();
+            }
         }
-        startActivity(toChat);
+
     }
 
     public void BeRed(View view){
-        FirebaseUser teamuserred = FirebaseAuth.getInstance().getCurrentUser();
-
-        Log.d("team", "Red");
-
-        if (teamuserred != null) {
-
-            // Set Displayname
-            UserProfileChangeRequest updateToRedOrBlue = new UserProfileChangeRequest.Builder()
-                    .setDisplayName("Red").build();
-            teamuserred.updateProfile(updateToRedOrBlue);
-            Toast.makeText(this, "You are Red", Toast.LENGTH_SHORT).show();
-
+        displayname = nameView.getText().toString();
+        if (displayname.equals("")){
+            Toast.makeText(this, "What is your displayname?", Toast.LENGTH_SHORT).show();
         }
         else{
-            Toast.makeText(this, "RedUser = null", Toast.LENGTH_SHORT).show();
+            FirebaseUser teamuserred = FirebaseAuth.getInstance().getCurrentUser();
+
+            Log.d("team", getResources().getString(R.string.teamBlue));
+
+            if (teamuserred != null) {
+
+                // Set Displayname
+                UserProfileChangeRequest updateToRedOrBlue = new UserProfileChangeRequest.Builder()
+                        .setDisplayName(displayname).build();
+                teamuserred.updateProfile(updateToRedOrBlue);
+                Toast.makeText(this, "You are Red " + displayname, Toast.LENGTH_SHORT).show();
+
+                team = "Red";
+                toChat.putExtra("team", team);
+
+                startActivity(toChat);
+
+            }
+            else{
+                Toast.makeText(this, "RedUser = null", Toast.LENGTH_SHORT).show();
+            }
         }
-        startActivity(toChat);
     }
 
     public void Logout(View view){

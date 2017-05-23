@@ -7,18 +7,18 @@
     android:orientation="vertical"
     tools:context="com.example.tristan.tristanhoobroeckx_pset6.TeamActivity">
 
-    <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="horizontal"-->
-        <!--android:layout_weight="0">-->
-        <!--<EditText-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:id="@+id/displaynamefield"-->
-            <!--android:hint="@string/displaynamestring"-->
-            <!--android:digits="@string/digits"/>-->
-    <!--</LinearLayout>-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="0">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/namefield"
+            android:hint="@string/displaynamestring"
+            android:digits="@string/digits"/>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

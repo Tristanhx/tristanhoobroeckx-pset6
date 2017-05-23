@@ -32,8 +32,10 @@ public class ChatActivity extends AppCompatActivity {
     EditText message;
     ListView chatlist;
     TextView messageText;
-    TextView messageUser;
+    TextView messageTeam;
+    TextView messageName;
     TextView messageTime;
+    String team;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +70,9 @@ public class ChatActivity extends AppCompatActivity {
             }
         };
 
+        Bundle extras = getIntent().getExtras();
+        team = extras.getString("team");
+
         database = FirebaseDatabase.getInstance();
         DisplayChats();
     }
@@ -77,10 +82,10 @@ public class ChatActivity extends AppCompatActivity {
 
         FirebaseUser fabuser = FirebaseAuth.getInstance().getCurrentUser();
 
-        if(fabuser.getDisplayName().equals("Blue")){
+        if(team.equals("Blue")){
             fab.setBackgroundTintList(getResources().getColorStateList(R.color.bluefab));
         }
-        else if(fabuser.getDisplayName().equals("Red")){
+        else if(team.equals("Red")){
             fab.setBackgroundTintList(getResources().getColorStateList(R.color.redfab));
         }
 
@@ -89,18 +94,21 @@ public class ChatActivity extends AppCompatActivity {
             protected void populateView(View view, DebateMessage message, int position) {
                 // get Views from message.xml
                 messageText = (TextView) view.findViewById(R.id.message_text);
-                messageUser = (TextView) view.findViewById(R.id.message_user);
+                messageTeam = (TextView) view.findViewById(R.id.message_team);
                 messageTime = (TextView) view.findViewById(R.id.message_time);
+                messageName = (TextView) view.findViewById(R.id.message_name);
 
                 // Set textViews from message.xml
                 messageText.setText(message.getMessageText());
-                messageUser.setText(message.getMessageUser());
+                messageName.setText(message.getMessageUser());
 
-                if(message.getMessageUser().equals("Blue")){
-                    messageUser.setTextColor(getResources().getColor(R.color.blue1));
+                if(message.getMessageTeam().equals("Blue")){
+                    messageTeam.setText(team);
+                    messageTeam.setTextColor(getResources().getColor(R.color.blue1));
                 }
-                else if(message.getMessageUser().equals("Red")){
-                    messageUser.setTextColor(getResources().getColor(R.color.red2));
+                else if(message.getMessageTeam().equals("Red")){
+                    messageTeam.setText(team);
+                    messageTeam.setTextColor(getResources().getColor(R.color.red2));
                 }
                 messageTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)", message.getMessageTime()));
 
@@ -120,7 +128,7 @@ public class ChatActivity extends AppCompatActivity {
 
             database.getInstance().getReference().push()
                     .setValue(new DebateMessage(message.getText().toString(),
-                            FirebaseAuth.getInstance().getCurrentUser().getDisplayName()));
+                            FirebaseAuth.getInstance().getCurrentUser().getDisplayName(), team));
             message.getText().clear();
         }
     }
