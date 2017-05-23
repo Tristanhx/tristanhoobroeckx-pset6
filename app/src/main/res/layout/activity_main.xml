@@ -44,6 +44,16 @@
 
             />
 
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/displaynamesignup"
+            android:hint="@string/displaynamestring"
+            android:digits="@string/digits"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/login_margin2"
+            />
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -93,6 +103,16 @@
             android:layout_gravity="center"
             android:layout_marginBottom="@dimen/login_margin2"
 
+            />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/displaynamelogin"
+            android:hint="@string/displaynamestring"
+            android:digits="@string/digits"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/login_margin2"
             />
 
         <Button

@@ -103,11 +103,11 @@ public class ChatActivity extends AppCompatActivity {
                 messageName.setText(message.getMessageUser());
 
                 if(message.getMessageTeam().equals("Blue")){
-                    messageTeam.setText(team);
+                    messageTeam.setText("Blue");
                     messageTeam.setTextColor(getResources().getColor(R.color.blue1));
                 }
                 else if(message.getMessageTeam().equals("Red")){
-                    messageTeam.setText(team);
+                    messageTeam.setText("Red");
                     messageTeam.setTextColor(getResources().getColor(R.color.red2));
                 }
                 messageTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)", message.getMessageTime()));

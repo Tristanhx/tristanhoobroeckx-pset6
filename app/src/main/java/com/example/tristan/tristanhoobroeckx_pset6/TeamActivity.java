@@ -23,14 +23,11 @@ public class TeamActivity extends AppCompatActivity {
     FirebaseUser user;
     String displayname;
     String team;
-    EditText nameView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team);
-
-        nameView = (EditText) findViewById(R.id.namefield);
 
         returntoMain = new Intent(TeamActivity.this, MainActivity.class);
         toChat = new Intent(TeamActivity.this, ChatActivity.class);
@@ -70,64 +67,19 @@ public class TeamActivity extends AppCompatActivity {
     }
 
     public void BeBlue(View view){
-        displayname = nameView.getText().toString();
-        if (displayname.equals("")){
-            Toast.makeText(this, "What is your displayname?", Toast.LENGTH_SHORT).show();
-        }
-        else{
-            FirebaseUser teamuserblue = FirebaseAuth.getInstance().getCurrentUser();
+        team = "Blue";
+        toChat.putExtra("team", team);
 
-            Log.d("team", getResources().getString(R.string.teamBlue));
-
-            if (teamuserblue != null) {
-
-                // Set Displayname
-                UserProfileChangeRequest updateToRedOrBlue = new UserProfileChangeRequest.Builder()
-                        .setDisplayName(displayname).build();
-                teamuserblue.updateProfile(updateToRedOrBlue);
-                Toast.makeText(this, "You are Blue " + displayname, Toast.LENGTH_SHORT).show();
-
-                team = "Blue";
-                toChat.putExtra("team", team);
-
-                startActivity(toChat);
-
-            }
-            else{
-                Toast.makeText(this, "BlueUser = null", Toast.LENGTH_SHORT).show();
-            }
-        }
+        startActivity(toChat);
 
     }
 
     public void BeRed(View view){
-        displayname = nameView.getText().toString();
-        if (displayname.equals("")){
-            Toast.makeText(this, "What is your displayname?", Toast.LENGTH_SHORT).show();
-        }
-        else{
-            FirebaseUser teamuserred = FirebaseAuth.getInstance().getCurrentUser();
+        team = "Red";
+        toChat.putExtra("team", team);
 
-            Log.d("team", getResources().getString(R.string.teamBlue));
+        startActivity(toChat);
 
-            if (teamuserred != null) {
-
-                // Set Displayname
-                UserProfileChangeRequest updateToRedOrBlue = new UserProfileChangeRequest.Builder()
-                        .setDisplayName(displayname).build();
-                teamuserred.updateProfile(updateToRedOrBlue);
-                Toast.makeText(this, "You are Red " + displayname, Toast.LENGTH_SHORT).show();
-
-                team = "Red";
-                toChat.putExtra("team", team);
-
-                startActivity(toChat);
-
-            }
-            else{
-                Toast.makeText(this, "RedUser = null", Toast.LENGTH_SHORT).show();
-            }
-        }
     }
 
     public void Logout(View view){

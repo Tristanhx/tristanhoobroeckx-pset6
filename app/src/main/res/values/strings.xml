@@ -10,6 +10,8 @@
     <string name="digits">ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz-_@1234567890.</string>
     <string name="displaynamestring">Displayname!</string>
 
+    <string name="defaultDisplayName">Human</string>
+
     // Teams
     <string name="teamBlue">Blue</string>
     <string name="teamRed">Red</string>
