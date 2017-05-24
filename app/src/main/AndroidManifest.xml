@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".TeamActivity" />
-        <activity android:name=".ChatActivity"></activity>
+        <activity android:name=".ChatActivity" />
     </application>
 
 </manifest>

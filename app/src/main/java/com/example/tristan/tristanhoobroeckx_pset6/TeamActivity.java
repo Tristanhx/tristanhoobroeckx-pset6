@@ -6,22 +6,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.Toast;
-
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class TeamActivity extends AppCompatActivity {
-    private FirebaseAnalytics mFirebaseAnalytics;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    Intent returntoMain;
+    Intent returnToMain;
     Intent toChat;
     FirebaseUser user;
-    String displayname;
     String team;
 
     @Override
@@ -29,10 +22,9 @@ public class TeamActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team);
 
-        returntoMain = new Intent(TeamActivity.this, MainActivity.class);
+        returnToMain = new Intent(TeamActivity.this, MainActivity.class);
         toChat = new Intent(TeamActivity.this, ChatActivity.class);
 
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -66,7 +58,7 @@ public class TeamActivity extends AppCompatActivity {
         }
     }
 
-    public void BeBlue(View view){
+    public void beBlue(View view){
         team = "Blue";
         toChat.putExtra("team", team);
 
@@ -74,7 +66,7 @@ public class TeamActivity extends AppCompatActivity {
 
     }
 
-    public void BeRed(View view){
+    public void beRed(View view){
         team = "Red";
         toChat.putExtra("team", team);
 
@@ -82,9 +74,9 @@ public class TeamActivity extends AppCompatActivity {
 
     }
 
-    public void Logout(View view){
+    public void logOut(View view){
         mAuth.signOut();
-        startActivity(returntoMain);
+        startActivity(returnToMain);
         finish();
 
     }

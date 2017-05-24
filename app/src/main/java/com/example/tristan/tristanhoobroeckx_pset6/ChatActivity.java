@@ -9,28 +9,22 @@ import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.firebase.ui.database.FirebaseListAdapter;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class ChatActivity extends AppCompatActivity {
-    private FirebaseAnalytics mFirebaseAnalytics;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     FirebaseDatabase database;
     FirebaseUser user;
-    Intent returntoMain;
+    Intent returnToMain;
     FloatingActionButton fab;
     EditText message;
-    ListView chatlist;
+    ListView chatList;
     TextView messageText;
     TextView messageTeam;
     TextView messageName;
@@ -42,14 +36,10 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        returntoMain = new Intent(ChatActivity.this, MainActivity.class);
+        returnToMain = new Intent(ChatActivity.this, MainActivity.class);
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new SendMessage());
-
-
-
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        fab.setOnClickListener(new sendMessage());
 
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -63,7 +53,7 @@ public class ChatActivity extends AppCompatActivity {
                 } else {
                     // User is signed out
                     Log.d("signed out", "onAuthStateChanged:signed_out");
-                    startActivity(returntoMain);
+                    startActivity(returnToMain);
                     finish();
                 }
                 // ...
@@ -74,13 +64,11 @@ public class ChatActivity extends AppCompatActivity {
         team = extras.getString("team");
 
         database = FirebaseDatabase.getInstance();
-        DisplayChats();
+        displayChats();
     }
 
-    public void DisplayChats(){
-        chatlist = (ListView) findViewById(R.id.chatlist);
-
-        FirebaseUser fabuser = FirebaseAuth.getInstance().getCurrentUser();
+    public void displayChats(){
+        chatList = (ListView) findViewById(R.id.chatlist);
 
         if(team.equals("Blue")){
             fab.setBackgroundTintList(getResources().getColorStateList(R.color.bluefab));
@@ -89,7 +77,8 @@ public class ChatActivity extends AppCompatActivity {
             fab.setBackgroundTintList(getResources().getColorStateList(R.color.redfab));
         }
 
-        FirebaseListAdapter<DebateMessage> chatadapter = new FirebaseListAdapter<DebateMessage>(this, DebateMessage.class, R.layout.message, database.getReference()) {
+        FirebaseListAdapter<DebateMessage> chatAdapter = new FirebaseListAdapter<DebateMessage>(this,
+                DebateMessage.class, R.layout.message, database.getReference()) {
             @Override
             protected void populateView(View view, DebateMessage message, int position) {
                 // get Views from message.xml
@@ -103,23 +92,24 @@ public class ChatActivity extends AppCompatActivity {
                 messageName.setText(message.getMessageUser());
 
                 if(message.getMessageTeam().equals("Blue")){
-                    messageTeam.setText("Blue");
+                    messageTeam.setText(getResources().getString(R.string.teamBlue));
                     messageTeam.setTextColor(getResources().getColor(R.color.blue1));
                 }
                 else if(message.getMessageTeam().equals("Red")){
-                    messageTeam.setText("Red");
+                    messageTeam.setText(getResources().getString(R.string.teamRed));
                     messageTeam.setTextColor(getResources().getColor(R.color.red2));
                 }
-                messageTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)", message.getMessageTime()));
+                messageTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)",
+                        message.getMessageTime()));
 
             }
         };
-        chatlist.setAdapter(chatadapter);
+        chatList.setAdapter(chatAdapter);
     }
 
-    public class SendMessage implements View.OnClickListener {
+    private class sendMessage implements View.OnClickListener {
 
-        public SendMessage(){
+        private sendMessage(){
 
         }
         @Override

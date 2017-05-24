@@ -11,14 +11,12 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class MainActivity extends AppCompatActivity {
-    private FirebaseAnalytics mFirebaseAnalytics;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     FirebaseUser user;
@@ -27,11 +25,11 @@ public class MainActivity extends AppCompatActivity {
     String email;
     String password;
     String displayName;
-    EditText signupEmail;
-    EditText signupPassword;
+    EditText signUpEmail;
+    EditText signUpPassword;
     EditText loginEmail;
     EditText loginPassword;
-    EditText signupDisplayName;
+    EditText signUpDisplayName;
     EditText loginDisplayName;
 
     @Override
@@ -39,16 +37,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        signupEmail = (EditText) findViewById(R.id.signemailinput);
-        signupPassword = (EditText) findViewById(R.id.signpasswordinput);
+        signUpEmail = (EditText) findViewById(R.id.signemailinput);
+        signUpPassword = (EditText) findViewById(R.id.signpasswordinput);
         loginEmail = (EditText) findViewById(R.id.logemailinput);
         loginPassword = (EditText) findViewById(R.id.logpasswordinput);
-        signupDisplayName = (EditText) findViewById(R.id.displaynamesignup);
+        signUpDisplayName = (EditText) findViewById(R.id.displaynamesignup);
         loginDisplayName = (EditText) findViewById(R.id.displaynamelogin);
 
         intent = new Intent(MainActivity.this, TeamActivity.class);
-
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -84,27 +80,30 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void SignUp(View view){
-        if (signupEmail.equals("") || signupPassword.equals("")){
+    public void signUp(View view){
+        if (signUpEmail.getText().toString().equals("") || signUpPassword.getText().toString().equals("")){
             Toast.makeText(this, "Missing email/password", Toast.LENGTH_SHORT).show();
-            signupEmail.getText().clear();
-            signupPassword.getText().clear();
+
+            signUpEmail.getText().clear();
+            signUpPassword.getText().clear();
         }
-        else if(signupPassword.length()<6){
-            Toast.makeText(this, "Password must be at least 6 characters", Toast.LENGTH_SHORT).show();
-            signupEmail.getText().clear();
-            signupPassword.getText().clear();
+        else if(signUpPassword.length()<6){
+            Toast.makeText(this, "Password must be at least 6 characters",
+                    Toast.LENGTH_SHORT).show();
+
+            signUpEmail.getText().clear();
+            signUpPassword.getText().clear();
         }
         else {
-            email = signupEmail.getText().toString();
-            password = signupPassword.getText().toString();
-            displayName = signupDisplayName.getText().toString();
+            email = signUpEmail.getText().toString();
+            password = signUpPassword.getText().toString();
+            displayName = signUpDisplayName.getText().toString();
             if (displayName.equals("")){
                 displayName = getResources().getString(R.string.defaultDisplayName);
             }
-            signupEmail.getText().clear();
-            signupPassword.getText().clear();
-            signupDisplayName.getText().clear();
+            signUpEmail.getText().clear();
+            signUpPassword.getText().clear();
+            signUpDisplayName.getText().clear();
 
             mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -128,15 +127,19 @@ public class MainActivity extends AppCompatActivity {
                                 UserProfileChangeRequest updateToRedOrBlue = new UserProfileChangeRequest.Builder()
                                         .setDisplayName(displayName).build();
                                 postUser.updateProfile(updateToRedOrBlue);
-                                Toast.makeText(MainActivity.this, "You are " + displayName, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity.this, "You are " + displayName,
+                                        Toast.LENGTH_SHORT).show();
 
                             }
 
                             // ...
                         }
                     });
-            // Force signout signin because firebase bug
+            /* Force signOut signIn because FireBase bug, and added sleep because apparently it
+            needs to wait a while
+            */
             mAuth.signOut();
+            android.os.SystemClock.sleep(2000);
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -163,8 +166,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void LogIn(View view){
-        if (loginEmail.equals("") || loginPassword.equals("")){
+    public void logIn(View view){
+        if (loginEmail.getText().toString().equals("") || loginPassword.getText().toString().equals("")){
             Toast.makeText(this, "Missing email/password", Toast.LENGTH_SHORT).show();
             loginEmail.getText().clear();
             loginPassword.getText().clear();
@@ -209,13 +212,17 @@ public class MainActivity extends AppCompatActivity {
                                 UserProfileChangeRequest updateToRedOrBlue = new UserProfileChangeRequest.Builder()
                                         .setDisplayName(displayName).build();
                                 postUser.updateProfile(updateToRedOrBlue);
-                                Toast.makeText(MainActivity.this, "You are " + displayName, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity.this, "You are " + displayName,
+                                        Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
 
-            // Force signout signin because firebase bug
+            /* Force signOut signIn because FireBase bug, and added sleep because apparently it
+            needs to wait a while
+            */
             mAuth.signOut();
+            android.os.SystemClock.sleep(2000);
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override

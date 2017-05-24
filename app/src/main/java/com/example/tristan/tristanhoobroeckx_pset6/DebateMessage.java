@@ -25,23 +25,6 @@ public class DebateMessage {
 
     }
 
-    // Setters
-    public void setMessageText(String newmessageText){
-        this.messageText = newmessageText;
-    }
-
-    public void setMessageUser(String newmessageUser){
-        this.messageUser = newmessageUser;
-    }
-
-    public void setMessageTime(long newmessagetime){
-        this.messageTime = newmessagetime;
-    }
-
-    public void setMessageTeam(String newTeam){
-        this.messageTeam = newTeam;
-    }
-
     // Getters
     public String getMessageText(){
         return this.messageText;
