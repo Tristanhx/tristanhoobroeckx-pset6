@@ -14,9 +14,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
-        android:src="@mipmap/ic_send"
+        android:src="@drawable/ic_send_black_24dp"
         android:id="@+id/fab"
-        android:tint="@android:color/white"
+        android:tint="@android:color/holo_green_light"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         app:fabSize="mini" />
