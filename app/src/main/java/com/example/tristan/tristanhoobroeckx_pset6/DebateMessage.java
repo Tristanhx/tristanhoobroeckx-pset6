@@ -7,9 +7,7 @@ import java.util.Date;
  */
 
 public class DebateMessage {
-    private String messageText;
-    private String messageUser;
-    private String messageTeam;
+    private String messageText, messageUser, messageTeam;
     private long messageTime;
 
     public DebateMessage(String messageText, String messageUser, String messageTeam){

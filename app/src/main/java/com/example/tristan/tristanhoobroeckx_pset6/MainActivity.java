@@ -19,18 +19,11 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    FirebaseUser user;
-    FirebaseUser postUser;
+    FirebaseUser user, postUser;
     Intent intent;
-    String email;
-    String password;
-    String displayName;
-    EditText signUpEmail;
-    EditText signUpPassword;
-    EditText loginEmail;
-    EditText loginPassword;
-    EditText signUpDisplayName;
-    EditText loginDisplayName;
+    String email, password, displayName;
+    EditText signUpEmail, signUpPassword, loginEmail, loginPassword, signUpDisplayName,
+            loginDisplayName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,15 +77,13 @@ public class MainActivity extends AppCompatActivity {
         if (signUpEmail.getText().toString().equals("") || signUpPassword.getText().toString().equals("")){
             Toast.makeText(this, "Missing email/password", Toast.LENGTH_SHORT).show();
 
-            signUpEmail.getText().clear();
-            signUpPassword.getText().clear();
+            clearText(signUpEmail, signUpPassword);
         }
         else if(signUpPassword.length()<6){
             Toast.makeText(this, "Password must be at least 6 characters",
                     Toast.LENGTH_SHORT).show();
 
-            signUpEmail.getText().clear();
-            signUpPassword.getText().clear();
+            clearText(signUpEmail, signUpPassword);
         }
         else {
             email = signUpEmail.getText().toString();
@@ -101,8 +92,7 @@ public class MainActivity extends AppCompatActivity {
             if (displayName.equals("")){
                 displayName = getResources().getString(R.string.defaultDisplayName);
             }
-            signUpEmail.getText().clear();
-            signUpPassword.getText().clear();
+            clearText(signUpEmail, signUpPassword);
             signUpDisplayName.getText().clear();
 
             mAuth.createUserWithEmailAndPassword(email, password)
@@ -138,30 +128,7 @@ public class MainActivity extends AppCompatActivity {
             /* Force signOut signIn because FireBase bug, and added sleep because apparently it
             needs to wait a while
             */
-            mAuth.signOut();
-            android.os.SystemClock.sleep(2000);
-            mAuth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            Log.d("log in", "signInWithEmail:onComplete:" + task.isSuccessful());
-
-                            // If sign in fails, display a message to the user. If sign in succeeds
-                            // the auth state listener will be notified and logic to handle the
-                            // signed in user can be handled in the listener.
-                            if (!task.isSuccessful()) {
-                                Log.w("log in", "signInWithEmail:failed", task.getException());
-                                Toast.makeText(MainActivity.this, "Authentication Failed",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                            else{
-                                Toast.makeText(MainActivity.this, "Logged In User: " + email,
-                                        Toast.LENGTH_SHORT).show();
-
-                                startActivity(intent);
-                            }
-                        }
-                    });
+           signOutSignIn(email, password);
 
         }
     }
@@ -169,13 +136,11 @@ public class MainActivity extends AppCompatActivity {
     public void logIn(View view){
         if (loginEmail.getText().toString().equals("") || loginPassword.getText().toString().equals("")){
             Toast.makeText(this, "Missing email/password", Toast.LENGTH_SHORT).show();
-            loginEmail.getText().clear();
-            loginPassword.getText().clear();
+            clearText(loginEmail, loginPassword);
         }
         else if(loginPassword.length()<6){
             Toast.makeText(this, "Password must be at least 6 characters", Toast.LENGTH_SHORT).show();
-            loginEmail.getText().clear();
-            loginPassword.getText().clear();
+            clearText(loginEmail, loginPassword);
         }
         else {
             email = loginEmail.getText().toString();
@@ -184,8 +149,7 @@ public class MainActivity extends AppCompatActivity {
             if (displayName.equals("")){
                 displayName = getResources().getString(R.string.defaultDisplayName);
             }
-            loginEmail.getText().clear();
-            loginPassword.getText().clear();
+            clearText(loginEmail, loginPassword);
             loginDisplayName.getText().clear();
 
             mAuth.signInWithEmailAndPassword(email, password)
@@ -221,30 +185,39 @@ public class MainActivity extends AppCompatActivity {
             /* Force signOut signIn because FireBase bug, and added sleep because apparently it
             needs to wait a while
             */
-            mAuth.signOut();
-            android.os.SystemClock.sleep(2000);
-            mAuth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            Log.d("log in", "signInWithEmail:onComplete:" + task.isSuccessful());
-
-                            // If sign in fails, display a message to the user. If sign in succeeds
-                            // the auth state listener will be notified and logic to handle the
-                            // signed in user can be handled in the listener.
-                            if (!task.isSuccessful()) {
-                                Log.w("log in", "signInWithEmail:failed", task.getException());
-                                Toast.makeText(MainActivity.this, "Authentication Failed",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                            else{
-                                Toast.makeText(MainActivity.this, "Logged In User: " + email,
-                                        Toast.LENGTH_SHORT).show();
-
-                                startActivity(intent);
-                            }
-                        }
-                    });
+            signOutSignIn(email, password);
         }
+    }
+
+    public void signOutSignIn(final String email, String password){
+        mAuth.signOut();
+        android.os.SystemClock.sleep(2000);
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        Log.d("log in", "signInWithEmail:onComplete:" + task.isSuccessful());
+
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+                        if (!task.isSuccessful()) {
+                            Log.w("log in", "signInWithEmail:failed", task.getException());
+                            Toast.makeText(MainActivity.this, "Authentication Failed",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            Toast.makeText(MainActivity.this, "Logged In User: " + email,
+                                    Toast.LENGTH_SHORT).show();
+
+                            startActivity(intent);
+                        }
+                    }
+                });
+    }
+
+    public void clearText(EditText ed1, EditText ed2){
+        ed1.getText().clear();
+        ed2.getText().clear();
     }
 }

@@ -25,11 +25,8 @@ public class ChatActivity extends AppCompatActivity {
     FloatingActionButton fab;
     EditText message;
     ListView chatList;
-    TextView messageText;
-    TextView messageTeam;
-    TextView messageName;
-    TextView messageTime;
-    String team;
+    TextView messageText, messageTeam, messageName, messageTime;
+    String team, red, blue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,11 +66,13 @@ public class ChatActivity extends AppCompatActivity {
 
     public void displayChats(){
         chatList = (ListView) findViewById(R.id.chatlist);
+        red = getResources().getString(R.string.teamRed);
+        blue = getResources().getString(R.string.teamBlue);
 
-        if(team.equals("Blue")){
+        if(team.equals(blue)){
             fab.setBackgroundTintList(getResources().getColorStateList(R.color.bluefab));
         }
-        else if(team.equals("Red")){
+        else if(team.equals(red)){
             fab.setBackgroundTintList(getResources().getColorStateList(R.color.redfab));
         }
 
@@ -91,12 +90,12 @@ public class ChatActivity extends AppCompatActivity {
                 messageText.setText(message.getMessageText());
                 messageName.setText(message.getMessageUser());
 
-                if(message.getMessageTeam().equals("Blue")){
-                    messageTeam.setText(getResources().getString(R.string.teamBlue));
+                if(message.getMessageTeam().equals(blue)){
+                    messageTeam.setText(blue);
                     messageTeam.setTextColor(getResources().getColor(R.color.blue1));
                 }
-                else if(message.getMessageTeam().equals("Red")){
-                    messageTeam.setText(getResources().getString(R.string.teamRed));
+                else if(message.getMessageTeam().equals(red)){
+                    messageTeam.setText(red);
                     messageTeam.setTextColor(getResources().getColor(R.color.red2));
                 }
                 messageTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)",

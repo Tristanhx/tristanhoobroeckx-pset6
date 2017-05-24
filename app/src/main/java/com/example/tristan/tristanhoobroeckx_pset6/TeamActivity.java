@@ -12,8 +12,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class TeamActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    Intent returnToMain;
-    Intent toChat;
+    Intent returnToMain, toChat;
     FirebaseUser user;
     String team;
 
