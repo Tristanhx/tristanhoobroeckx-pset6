@@ -40,8 +40,8 @@ public class ChatActivity extends AppCompatActivity {
         fab.setOnClickListener(new sendMessage());
 
         mAuth = FirebaseAuth.getInstance();
-        listenerHelper = new CreateFireListener();
-        mAuthListener = listenerHelper.createFireListener(true);
+        listenerHelper = new CreateFireListener(this);
+        mAuthListener = listenerHelper.createFireListener(false, true);
 
         Bundle extras = getIntent().getExtras();
         team = extras.getString("team");
@@ -82,12 +82,10 @@ public class ChatActivity extends AppCompatActivity {
                 messageName.setText(message.getMessageUser());
 
                 if(message.getMessageTeam().equals(blue)){
-                    messageTeam.setText(blue);
-                    messageTeam.setTextColor(getResources().getColor(R.color.blue1));
+                    setTextAndColor(blue, getResources().getColor(R.color.blue1));
                 }
                 else if(message.getMessageTeam().equals(red)){
-                    messageTeam.setText(red);
-                    messageTeam.setTextColor(getResources().getColor(R.color.red2));
+                    setTextAndColor(red, getResources().getColor(R.color.red2));
                 }
                 messageTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)",
                         message.getMessageTime()));
@@ -95,6 +93,11 @@ public class ChatActivity extends AppCompatActivity {
             }
         };
         return chatAdapter;
+    }
+
+    public void setTextAndColor(String text, int color){
+        messageTeam.setText(text);
+        messageTeam.setTextColor(color);
     }
 
     private class sendMessage implements View.OnClickListener {
