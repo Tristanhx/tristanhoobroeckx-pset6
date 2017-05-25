@@ -19,11 +19,12 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    FirebaseUser user, postUser;
+    FirebaseUser postUser;
     Intent intent;
     String email, password, displayName;
     EditText signUpEmail, signUpPassword, loginEmail, loginPassword, signUpDisplayName,
             loginDisplayName;
+    CreateFireListener listenerHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,24 +41,11 @@ public class MainActivity extends AppCompatActivity {
         intent = new Intent(MainActivity.this, TeamActivity.class);
 
         mAuth = FirebaseAuth.getInstance();
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                user = firebaseAuth.getCurrentUser();
-                if (user != null){
-                    // User is signed in
-                    Log.d("signed in", "onAuthStateChanged:signed_in:" + user.getUid());
-
-                    startActivity(intent);
-
-                } else {
-                    // User is signed out
-                    Log.d("signed out", "onAuthStateChanged:signed_out");
-                }
-                // ...
-            }
-        };
+        listenerHelper = new CreateFireListener(MainActivity.this);
+        mAuthListener = listenerHelper.createFireListener(true, false);
     }
+
+
 
     @Override
     public void onStart() {
@@ -95,42 +83,44 @@ public class MainActivity extends AppCompatActivity {
             clearText(signUpEmail, signUpPassword);
             signUpDisplayName.getText().clear();
 
-            mAuth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            Log.d("sign up", "createUserWithEmail:onComplete:" + task.isSuccessful());
+            createUser(email, password);
 
-                            // If sign in fails, display a message to the user. If sign in succeeds
-                            // the auth state listener will be notified and logic to handle the
-                            // signed in user can be handled in the listener.
-                            if (!task.isSuccessful()) {
-                                Toast.makeText(MainActivity.this, "Authentication Failed",
-                                        Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(MainActivity.this, "Created User: " + email,
-                                        Toast.LENGTH_SHORT).show();
-
-                                postUser = FirebaseAuth.getInstance().getCurrentUser();
-
-                                // Set Displayname
-                                UserProfileChangeRequest updateToRedOrBlue = new UserProfileChangeRequest.Builder()
-                                        .setDisplayName(displayName).build();
-                                postUser.updateProfile(updateToRedOrBlue);
-                                Toast.makeText(MainActivity.this, "You are " + displayName,
-                                        Toast.LENGTH_SHORT).show();
-
-                            }
-
-                            // ...
-                        }
-                    });
             /* Force signOut signIn because FireBase bug, and added sleep because apparently it
             needs to wait a while
             */
            signOutSignIn(email, password);
 
         }
+    }
+
+    public void createUser(final String email, String password){
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        Log.d("sign up", "createUserWithEmail:onComplete:" + task.isSuccessful());
+
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+                        if (!task.isSuccessful()) {
+                            Toast.makeText(MainActivity.this, "Authentication Failed",
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(MainActivity.this, "Created User: " + email,
+                                    Toast.LENGTH_SHORT).show();
+
+                            postUser = FirebaseAuth.getInstance().getCurrentUser();
+
+                            // Set Displayname
+                            UserProfileChangeRequest updateToRedOrBlue = new UserProfileChangeRequest.Builder()
+                                    .setDisplayName(displayName).build();
+                            postUser.updateProfile(updateToRedOrBlue);
+                            Toast.makeText(MainActivity.this, "You are " + displayName,
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
     public void logIn(View view){
@@ -152,35 +142,7 @@ public class MainActivity extends AppCompatActivity {
             clearText(loginEmail, loginPassword);
             loginDisplayName.getText().clear();
 
-            mAuth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            Log.d("log in", "signInWithEmail:onComplete:" + task.isSuccessful());
-
-                            // If sign in fails, display a message to the user. If sign in succeeds
-                            // the auth state listener will be notified and logic to handle the
-                            // signed in user can be handled in the listener.
-                            if (!task.isSuccessful()) {
-                                Log.w("log in", "signInWithEmail:failed", task.getException());
-                                Toast.makeText(MainActivity.this, "Authentication Failed",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                            else{
-                                Toast.makeText(MainActivity.this, "Logged In User: " + email,
-                                        Toast.LENGTH_SHORT).show();
-
-                                postUser = FirebaseAuth.getInstance().getCurrentUser();
-
-                                // Set Displayname
-                                UserProfileChangeRequest updateToRedOrBlue = new UserProfileChangeRequest.Builder()
-                                        .setDisplayName(displayName).build();
-                                postUser.updateProfile(updateToRedOrBlue);
-                                Toast.makeText(MainActivity.this, "You are " + displayName,
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
+            emailPassword(email, password, false);
 
             /* Force signOut signIn because FireBase bug, and added sleep because apparently it
             needs to wait a while
@@ -189,9 +151,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void signOutSignIn(final String email, String password){
-        mAuth.signOut();
-        android.os.SystemClock.sleep(2000);
+    public void emailPassword(final String email, String password, final boolean startIntent){
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -210,10 +170,27 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(MainActivity.this, "Logged In User: " + email,
                                     Toast.LENGTH_SHORT).show();
 
-                            startActivity(intent);
+                            postUser = FirebaseAuth.getInstance().getCurrentUser();
+
+                            // Set Displayname
+                            UserProfileChangeRequest updateToRedOrBlue = new UserProfileChangeRequest.Builder()
+                                    .setDisplayName(displayName).build();
+                            postUser.updateProfile(updateToRedOrBlue);
+                            Toast.makeText(MainActivity.this, "You are " + displayName,
+                                    Toast.LENGTH_SHORT).show();
+
+                            if (startIntent){
+                                startActivity(intent);
+                            }
                         }
                     }
                 });
+    }
+
+    public void signOutSignIn(final String email, String password){
+        mAuth.signOut();
+        android.os.SystemClock.sleep(2000);
+        emailPassword(email, password, true);
     }
 
     public void clearText(EditText ed1, EditText ed2){

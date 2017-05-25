@@ -27,6 +27,7 @@ public class ChatActivity extends AppCompatActivity {
     ListView chatList;
     TextView messageText, messageTeam, messageName, messageTime;
     String team, red, blue;
+    CreateFireListener listenerHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,23 +40,8 @@ public class ChatActivity extends AppCompatActivity {
         fab.setOnClickListener(new sendMessage());
 
         mAuth = FirebaseAuth.getInstance();
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                user = firebaseAuth.getCurrentUser();
-                if (user != null){
-                    // User is signed in
-                    Log.d("signed in", "onAuthStateChanged:signed_in:" + user.getUid());
-
-                } else {
-                    // User is signed out
-                    Log.d("signed out", "onAuthStateChanged:signed_out");
-                    startActivity(returnToMain);
-                    finish();
-                }
-                // ...
-            }
-        };
+        listenerHelper = new CreateFireListener();
+        mAuthListener = listenerHelper.createFireListener(true);
 
         Bundle extras = getIntent().getExtras();
         team = extras.getString("team");
@@ -76,6 +62,11 @@ public class ChatActivity extends AppCompatActivity {
             fab.setBackgroundTintList(getResources().getColorStateList(R.color.redfab));
         }
 
+
+        chatList.setAdapter(createFireBaseAdapter());
+    }
+
+    public FirebaseListAdapter<DebateMessage> createFireBaseAdapter(){
         FirebaseListAdapter<DebateMessage> chatAdapter = new FirebaseListAdapter<DebateMessage>(this,
                 DebateMessage.class, R.layout.message, database.getReference()) {
             @Override
@@ -103,7 +94,7 @@ public class ChatActivity extends AppCompatActivity {
 
             }
         };
-        chatList.setAdapter(chatAdapter);
+        return chatAdapter;
     }
 
     private class sendMessage implements View.OnClickListener {
