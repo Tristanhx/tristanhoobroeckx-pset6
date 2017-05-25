@@ -63,13 +63,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void signUp(View view){
         if (signUpEmail.getText().toString().equals("") || signUpPassword.getText().toString().equals("")){
-            Toast.makeText(this, "Missing email/password", Toast.LENGTH_SHORT).show();
+            makeToast("Missing email/password");
 
             clearText(signUpEmail, signUpPassword);
         }
         else if(signUpPassword.length()<6){
-            Toast.makeText(this, "Password must be at least 6 characters",
-                    Toast.LENGTH_SHORT).show();
+            makeToast("Password must be at least 6 characters");
 
             clearText(signUpEmail, signUpPassword);
         }
@@ -104,11 +103,10 @@ public class MainActivity extends AppCompatActivity {
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
-                            Toast.makeText(MainActivity.this, "Authentication Failed",
-                                    Toast.LENGTH_SHORT).show();
+                            makeToast("Authentication Failed");
+
                         } else {
-                            Toast.makeText(MainActivity.this, "Created User: " + email,
-                                    Toast.LENGTH_SHORT).show();
+                            makeToast("Created User: " + email);
 
                             postUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -116,8 +114,7 @@ public class MainActivity extends AppCompatActivity {
                             UserProfileChangeRequest updateToRedOrBlue = new UserProfileChangeRequest.Builder()
                                     .setDisplayName(displayName).build();
                             postUser.updateProfile(updateToRedOrBlue);
-                            Toast.makeText(MainActivity.this, "You are " + displayName,
-                                    Toast.LENGTH_SHORT).show();
+                            makeToast("You are " + displayName);
                         }
                     }
                 });
@@ -125,11 +122,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void logIn(View view){
         if (loginEmail.getText().toString().equals("") || loginPassword.getText().toString().equals("")){
-            Toast.makeText(this, "Missing email/password", Toast.LENGTH_SHORT).show();
+            makeToast("Missing email/password");
             clearText(loginEmail, loginPassword);
         }
         else if(loginPassword.length()<6){
-            Toast.makeText(this, "Password must be at least 6 characters", Toast.LENGTH_SHORT).show();
+            makeToast("Password must be at least 6 characters");
             clearText(loginEmail, loginPassword);
         }
         else {
@@ -163,28 +160,29 @@ public class MainActivity extends AppCompatActivity {
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             Log.w("log in", "signInWithEmail:failed", task.getException());
-                            Toast.makeText(MainActivity.this, "Authentication Failed",
-                                    Toast.LENGTH_SHORT).show();
+                            makeToast("Authentication Failed");
                         }
                         else{
-                            Toast.makeText(MainActivity.this, "Logged In User: " + email,
-                                    Toast.LENGTH_SHORT).show();
+                            makeToast("Logged In User: " + email);
 
                             postUser = FirebaseAuth.getInstance().getCurrentUser();
 
                             // Set Displayname
-                            UserProfileChangeRequest updateToRedOrBlue = new UserProfileChangeRequest.Builder()
-                                    .setDisplayName(displayName).build();
-                            postUser.updateProfile(updateToRedOrBlue);
-                            Toast.makeText(MainActivity.this, "You are " + displayName,
-                                    Toast.LENGTH_SHORT).show();
-
-                            if (startIntent){
-                                startActivity(intent);
-                            }
+                            setDisplayName(startIntent);
                         }
                     }
                 });
+    }
+
+    public void setDisplayName(boolean startIntent){
+        UserProfileChangeRequest updateToRedOrBlue = new UserProfileChangeRequest.Builder()
+                .setDisplayName(displayName).build();
+        postUser.updateProfile(updateToRedOrBlue);
+        makeToast("You are " + displayName);
+
+        if (startIntent){
+            startActivity(intent);
+        }
     }
 
     public void signOutSignIn(final String email, String password){
@@ -196,5 +194,10 @@ public class MainActivity extends AppCompatActivity {
     public void clearText(EditText ed1, EditText ed2){
         ed1.getText().clear();
         ed2.getText().clear();
+    }
+
+    public void makeToast(String message){
+        Toast.makeText(MainActivity.this, message,
+                Toast.LENGTH_SHORT).show();
     }
 }
