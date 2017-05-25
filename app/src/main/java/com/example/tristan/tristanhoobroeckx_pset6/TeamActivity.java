@@ -15,6 +15,7 @@ public class TeamActivity extends AppCompatActivity {
     Intent returnToMain, toChat;
     FirebaseUser user;
     String team;
+    CreateFireListener listenerHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,21 +27,8 @@ public class TeamActivity extends AppCompatActivity {
 
 
         mAuth = FirebaseAuth.getInstance();
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                user = firebaseAuth.getCurrentUser();
-                if (user != null){
-                    // User is signed in
-                    Log.d("signed in", "onAuthStateChanged:signed_in:" + user.getUid());
-
-                } else {
-                    // User is signed out
-                    Log.d("signed out", "onAuthStateChanged:signed_out");
-                }
-                // ...
-            }
-        };
+        listenerHelper = new CreateFireListener(TeamActivity.this);
+        mAuthListener = listenerHelper.createFireListener(false, false);
     }
 
     @Override
