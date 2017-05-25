@@ -33,6 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Input"
+            android:textCursorDrawable="@drawable/ic_create_black_24dp"
             android:background="@drawable/etedge"
             android:maxLines="10"
             android:id="@+id/edittext"/>
@@ -46,10 +47,10 @@
         android:transcriptMode="alwaysScroll"
         android:stackFromBottom="true"
         android:layout_above="@id/TIL"
-        android:dividerHeight="16dp"
+        android:dividerHeight="10dp"
         android:divider="@android:color/transparent"
         android:id="@+id/chatlist"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="10dp"
         />
 
 </RelativeLayout>

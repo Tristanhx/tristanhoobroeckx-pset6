@@ -23,7 +23,7 @@ public class ChatActivity extends AppCompatActivity {
     FirebaseUser user;
     Intent returnToMain;
     FloatingActionButton fab;
-    EditText message;
+    EditText messageEdit;
     ListView chatList;
     TextView messageText, messageTeam, messageName, messageTime;
     String team, red, blue;
@@ -38,6 +38,7 @@ public class ChatActivity extends AppCompatActivity {
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new sendMessage());
+        messageEdit = (EditText) findViewById(R.id.edittext);
 
         mAuth = FirebaseAuth.getInstance();
         listenerHelper = new CreateFireListener(this);
@@ -57,9 +58,11 @@ public class ChatActivity extends AppCompatActivity {
 
         if(team.equals(blue)){
             fab.setBackgroundTintList(getResources().getColorStateList(R.color.bluefab));
+            messageEdit.setTextColor(getResources().getColorStateList(R.color.bluefab));
         }
         else if(team.equals(red)){
             fab.setBackgroundTintList(getResources().getColorStateList(R.color.redfab));
+            messageEdit.setTextColor(getResources().getColorStateList(R.color.redfab));
         }
 
 
@@ -114,12 +117,11 @@ public class ChatActivity extends AppCompatActivity {
         }
         @Override
         public void onClick(View view){
-            message = (EditText) findViewById(R.id.edittext);
 
             database.getInstance().getReference().push()
-                    .setValue(new DebateMessage(message.getText().toString(),
+                    .setValue(new DebateMessage(messageEdit.getText().toString(),
                             FirebaseAuth.getInstance().getCurrentUser().getDisplayName(), team));
-            message.getText().clear();
+            messageEdit.getText().clear();
         }
     }
 
