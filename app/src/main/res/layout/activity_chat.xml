@@ -24,7 +24,7 @@
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@id/fab"
+        android:layout_toStartOf="@id/fab"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:id="@+id/TIL">
@@ -32,7 +32,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Input"
+            android:hint="@string/input"
             android:textCursorDrawable="@drawable/ic_create_black_24dp"
             android:background="@drawable/etedge"
             android:maxLines="10"
