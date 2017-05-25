@@ -26,6 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/signemailinput"
+            android:inputType="textEmailAddress"
             android:hint="@string/emailstring"
             android:digits="@string/digits"
             android:layout_gravity="center"
@@ -36,6 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/signpasswordinput"
+            android:inputType="textPassword"
             android:hint="@string/passwordstring"
             android:digits="@string/digits"
             android:layout_gravity="center"
@@ -56,6 +58,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/custom_button_sign_up"
             android:text="@string/signupstring"
             android:layout_gravity="center"
             android:onClick="signUp"/>
@@ -87,6 +90,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/logemailinput"
+            android:inputType="textEmailAddress"
             android:hint="@string/emailstring"
             android:digits="@string/digits"
             android:layout_gravity="center"
@@ -97,6 +101,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/logpasswordinput"
+            android:inputType="textPassword"
             android:hint="@string/passwordstring"
             android:digits="@string/digits"
             android:layout_gravity="center"
@@ -117,6 +122,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/custom_button_log_in"
             android:text="@string/loginstring"
             android:layout_gravity="center"
             android:onClick="logIn"/>

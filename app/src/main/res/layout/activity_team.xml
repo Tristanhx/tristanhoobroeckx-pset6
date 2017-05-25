@@ -32,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/redbutton"
-            android:background="@drawable/custom_buttom_red"
+            android:background="@drawable/custom_button_red"
             android:text="@string/redteam"
             android:textSize="@dimen/teamtextsize"
             android:onClick="beRed"
