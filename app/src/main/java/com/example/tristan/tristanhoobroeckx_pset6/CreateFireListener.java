@@ -48,7 +48,6 @@ public class CreateFireListener {
                         context.finish();
                     }
                 }
-                // ...
             }
         };
         return mAuthListener;

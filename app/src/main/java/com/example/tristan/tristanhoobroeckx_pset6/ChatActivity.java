@@ -71,28 +71,35 @@ public class ChatActivity extends AppCompatActivity {
                 DebateMessage.class, R.layout.message, database.getReference()) {
             @Override
             protected void populateView(View view, DebateMessage message, int position) {
-                // get Views from message.xml
-                messageText = (TextView) view.findViewById(R.id.message_text);
-                messageTeam = (TextView) view.findViewById(R.id.message_team);
-                messageTime = (TextView) view.findViewById(R.id.message_time);
-                messageName = (TextView) view.findViewById(R.id.message_name);
+                getViews(view);
 
-                // Set textViews from message.xml
-                messageText.setText(message.getMessageText());
-                messageName.setText(message.getMessageUser());
-
-                if(message.getMessageTeam().equals(blue)){
-                    setTextAndColor(blue, getResources().getColor(R.color.blue1));
-                }
-                else if(message.getMessageTeam().equals(red)){
-                    setTextAndColor(red, getResources().getColor(R.color.red2));
-                }
-                messageTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)",
-                        message.getMessageTime()));
-
+                setViews(message);
             }
         };
         return chatAdapter;
+    }
+
+    public void getViews(View view){
+        // get Views from message.xml
+        messageText = (TextView) view.findViewById(R.id.message_text);
+        messageTeam = (TextView) view.findViewById(R.id.message_team);
+        messageTime = (TextView) view.findViewById(R.id.message_time);
+        messageName = (TextView) view.findViewById(R.id.message_name);
+    }
+
+    public void setViews(DebateMessage message){
+        // Set textViews from message.xml
+        messageText.setText(message.getMessageText());
+        messageName.setText(message.getMessageUser());
+
+        if(message.getMessageTeam().equals(blue)){
+            setTextAndColor(blue, getResources().getColor(R.color.blue1));
+        }
+        else if(message.getMessageTeam().equals(red)){
+            setTextAndColor(red, getResources().getColor(R.color.red2));
+        }
+        messageTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)",
+                message.getMessageTime()));
     }
 
     public void setTextAndColor(String text, int color){

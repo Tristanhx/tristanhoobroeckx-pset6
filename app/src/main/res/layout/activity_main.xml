@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/displaynamesignup"
             android:hint="@string/displaynamestring"
-            android:digits="@string/digits"
+            android:digits="@string/digits2"
             android:layout_gravity="center"
             android:layout_marginBottom="@dimen/login_margin2"
             />
@@ -109,7 +109,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/displaynamelogin"
             android:hint="@string/displaynamestring"
-            android:digits="@string/digits"
+            android:digits="@string/digits2"
             android:layout_gravity="center"
             android:layout_marginBottom="@dimen/login_margin2"
             />

@@ -8,6 +8,7 @@
     <string name="redteam">Red Team</string>
     <string name="logout">Log Out</string>
     <string name="digits">ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz-_@1234567890.</string>
+    <string name="digits2">ABCDEFGHIJKLMNOPQRSTUVWXYZ!?abcdefghijklmnopqrstuvwxyz-_@1234567890.,;:)({}[]|\/@#$%^&amp;*+=~`</string>
     <string name="displaynamestring">Displayname!</string>
 
     <string name="defaultDisplayName">Human</string>
