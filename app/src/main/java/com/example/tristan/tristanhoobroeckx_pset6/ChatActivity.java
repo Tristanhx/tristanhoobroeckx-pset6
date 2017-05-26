@@ -16,11 +16,16 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 
+/**
+ * In this activity chatMessages are displayed. It also contains an input box and button.
+ * The activity receives a string (Red or Blue) from TeamActivity and changes the colors of this
+ * screen accordingly.
+ */
+
 public class ChatActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     FirebaseDatabase database;
-    FirebaseUser user;
     Intent returnToMain;
     FloatingActionButton fab;
     EditText messageEdit;
@@ -41,6 +46,7 @@ public class ChatActivity extends AppCompatActivity {
         messageEdit = (EditText) findViewById(R.id.edittext);
 
         mAuth = FirebaseAuth.getInstance();
+
         listenerHelper = new CreateFireListener(this);
         mAuthListener = listenerHelper.createFireListener(false, true);
 
@@ -51,6 +57,7 @@ public class ChatActivity extends AppCompatActivity {
         displayChats();
     }
 
+    // This is the method that creates initializes the chatList and sets the adapter.
     public void displayChats(){
         chatList = (ListView) findViewById(R.id.chatlist);
         red = getResources().getString(R.string.teamRed);
@@ -69,6 +76,10 @@ public class ChatActivity extends AppCompatActivity {
         chatList.setAdapter(createFireBaseAdapter());
     }
 
+    /*
+    This is the method that returns a FirebaseListAdapter. This is an adapter from Firebase-UI
+    that updates as the realtime database changes.
+    */
     public FirebaseListAdapter<DebateMessage> createFireBaseAdapter(){
         FirebaseListAdapter<DebateMessage> chatAdapter = new FirebaseListAdapter<DebateMessage>(this,
                 DebateMessage.class, R.layout.message, database.getReference()) {
@@ -82,6 +93,9 @@ public class ChatActivity extends AppCompatActivity {
         return chatAdapter;
     }
 
+    /*
+     In order to keep methods small I moved some components into their own methods and call them.
+      */
     public void getViews(View view){
         // get Views from message.xml
         messageText = (TextView) view.findViewById(R.id.message_text);
@@ -110,6 +124,10 @@ public class ChatActivity extends AppCompatActivity {
         messageTeam.setTextColor(color);
     }
 
+    /*
+    This is the listener from the FAB. When clicked a new message-object is created and added to
+    the database.
+    */
     private class sendMessage implements View.OnClickListener {
 
         private sendMessage(){

@@ -4,6 +4,7 @@ import java.util.Date;
 
 /**
  * Created by Tristan on 22/05/2017.
+ * This is essentially a message-object with all attributes and means to get them.
  */
 
 public class DebateMessage {
@@ -17,10 +18,6 @@ public class DebateMessage {
 
         // Current time
         messageTime = new Date().getTime();
-    }
-
-    public DebateMessage(){
-
     }
 
     // Getters

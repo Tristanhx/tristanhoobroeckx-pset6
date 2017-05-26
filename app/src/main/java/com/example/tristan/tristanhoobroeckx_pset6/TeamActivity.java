@@ -9,11 +9,14 @@ import android.view.View;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+/**
+ * This is the Activity where the user chooses a team and also has the option to logout.
+ */
+
 public class TeamActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     Intent returnToMain, toChat;
-    FirebaseUser user;
     String team;
     CreateFireListener listenerHelper;
 
@@ -45,8 +48,9 @@ public class TeamActivity extends AppCompatActivity {
         }
     }
 
+    // The beBlue and beRed methods start the ChatActivity and send with it a string (Blue or Red)
     public void beBlue(View view){
-        team = "Blue";
+        team = getResources().getString(R.string.teamBlue);
         toChat.putExtra("team", team);
 
         startActivity(toChat);
@@ -54,7 +58,7 @@ public class TeamActivity extends AppCompatActivity {
     }
 
     public void beRed(View view){
-        team = "Red";
+        team = getResources().getString(R.string.teamRed);
         toChat.putExtra("team", team);
 
         startActivity(toChat);

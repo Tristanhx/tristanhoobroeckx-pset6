@@ -16,6 +16,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
+/**
+ * This is the first activity that starts when you launch the app. It may not always seem so, because
+ * when the user is already logged in MainActivity starts TeamActivity. MainActivity's layout is
+ * divided vertically and contains Sign Up and Login options as well as the opportunity to set your
+ * Displayname.
+ */
+
 public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -41,6 +48,11 @@ public class MainActivity extends AppCompatActivity {
         intent = new Intent(MainActivity.this, TeamActivity.class);
 
         mAuth = FirebaseAuth.getInstance();
+
+        /*
+        I moved the creation of the FirebaseAuth.AuthStateListener to an external class to
+        save on lines and make the code more readable.
+        */
         listenerHelper = new CreateFireListener(MainActivity.this);
         mAuthListener = listenerHelper.createFireListener(true, false);
     }
@@ -65,12 +77,12 @@ public class MainActivity extends AppCompatActivity {
         if (signUpEmail.getText().toString().equals("") || signUpPassword.getText().toString().equals("")){
             makeToast("Missing email/password");
 
-            clearText(signUpEmail, signUpPassword);
+            clearText(signUpEmail, signUpPassword, false);
         }
         else if(signUpPassword.length()<6){
             makeToast("Password must be at least 6 characters");
 
-            clearText(signUpEmail, signUpPassword);
+            clearText(signUpEmail, signUpPassword, false);
         }
         else {
             email = signUpEmail.getText().toString();
@@ -79,15 +91,11 @@ public class MainActivity extends AppCompatActivity {
             if (displayName.equals("")){
                 displayName = getResources().getString(R.string.defaultDisplayName);
             }
-            clearText(signUpEmail, signUpPassword);
-            signUpDisplayName.getText().clear();
+            clearText(signUpEmail, signUpPassword, true);
 
             createUser(email, password);
 
-            /* Force signOut signIn because FireBase bug, and added sleep because apparently it
-            needs to wait a while
-            */
-           signOutSignIn(email, password);
+            signOutSignIn(email, password);
 
         }
     }
@@ -111,33 +119,30 @@ public class MainActivity extends AppCompatActivity {
                             postUser = FirebaseAuth.getInstance().getCurrentUser();
 
                             // Set Displayname
-                            UserProfileChangeRequest updateToRedOrBlue = new UserProfileChangeRequest.Builder()
-                                    .setDisplayName(displayName).build();
-                            postUser.updateProfile(updateToRedOrBlue);
-                            makeToast("You are " + displayName);
+                            setDisplayName(false);
                         }
                     }
                 });
     }
 
     public void logIn(View view){
-        if (loginEmail.getText().toString().equals("") || loginPassword.getText().toString().equals("")){
+        email = loginEmail.getText().toString();
+        password = loginPassword.getText().toString();
+        displayName = loginDisplayName.getText().toString();
+        if (email.equals("") || password.equals("")){
             makeToast("Missing email/password");
-            clearText(loginEmail, loginPassword);
+            clearText(loginEmail, loginPassword, false);
         }
-        else if(loginPassword.length()<6){
+        else if(password.length()<6){
             makeToast("Password must be at least 6 characters");
-            clearText(loginEmail, loginPassword);
+            clearText(loginEmail, loginPassword, false);
         }
         else {
-            email = loginEmail.getText().toString();
-            password = loginPassword.getText().toString();
-            displayName = loginDisplayName.getText().toString();
+            // If no displayname is given, displayname is 'Human'.
             if (displayName.equals("")){
                 displayName = getResources().getString(R.string.defaultDisplayName);
             }
-            clearText(loginEmail, loginPassword);
-            loginDisplayName.getText().clear();
+            clearText(loginEmail, loginPassword, true);
 
             emailPassword(email, password, false);
 
@@ -148,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // I moved the login to this method, because it is used multiple times.
     public void emailPassword(final String email, String password, final boolean startIntent){
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -167,7 +173,6 @@ public class MainActivity extends AppCompatActivity {
 
                             postUser = FirebaseAuth.getInstance().getCurrentUser();
 
-                            // Set Displayname
                             setDisplayName(startIntent);
                         }
                     }
@@ -185,17 +190,29 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /*
+    Attempt to circumvent a bug in Firebase.
+    Force signOut signIn because FireBase bug, and added sleep because apparently it
+    needs to wait a while. Still doesn't always works, but is better than never works.
+    */
     public void signOutSignIn(final String email, String password){
         mAuth.signOut();
         android.os.SystemClock.sleep(2000);
         emailPassword(email, password, true);
     }
 
-    public void clearText(EditText ed1, EditText ed2){
+    // Multiple editTexts are cleared in this Activity, so why not have it in a method.
+    public void clearText(EditText ed1, EditText ed2, boolean clearDisplayName){
         ed1.getText().clear();
         ed2.getText().clear();
+
+        if (clearDisplayName){
+            signUpDisplayName.getText().clear();
+            loginDisplayName.getText().clear();
+        }
     }
 
+    // Multiple Toasts are made in this Activity, so I put it in a method.
     public void makeToast(String message){
         Toast.makeText(MainActivity.this, message,
                 Toast.LENGTH_SHORT).show();

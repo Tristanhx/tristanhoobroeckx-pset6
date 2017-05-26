@@ -10,6 +10,8 @@ import com.google.firebase.auth.FirebaseUser;
 
 /**
  * Created by Tristan on 25/05/2017.
+ * This class contains a method that creates and returns an AuthStateListener from Firebase.
+ * It contains two booleans which indicate whether or not an activity is started through intent.
  */
 
 public class CreateFireListener {
